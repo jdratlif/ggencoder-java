@@ -1,0 +1,5 @@
+  Version 1.1 - November 16, 2004
+	- fixed a bug in NES gg encoder where codes would be invalid on a real gg
+  Version 1.0 - July 17, 2004
+	- intial release
+	- support for NES, SNES, Game Gear, Game Boy, and Genesis Codes
