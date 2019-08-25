@@ -1,0 +1,146 @@
+-------------------------------------------------------------------------
+                  SNES Game Genie Conversion Method
+-------------------------------------------------------------------------
+
+This document describes the process of converting SNES Game Genie codes
+to raw hex values and ROM addresses. This information came from
+the Game Genie Code Creators Club and their SNES Game Genie Handbook
+version 7.00. http://www.ggccc.com
+
+Mathematical concepts are explained in the math.txt file. Consult that
+file if you have questions on any of the procedures used here.
+
+For information on hex editing, please consult the hexedit.txt file.
+
+-------------------------------------------------------------------------
+                Step 1 - Convert GG hex to Standard hex
+-------------------------------------------------------------------------
+
+All the game genie letters translate to standard hex codes, so we just
+need to know how that conversion works. Here's a short table.
+
+D = 0	6 = 8
+F = 1	B = 9
+4 = 2	C = A
+7 = 3	8 = B
+0 = 4	A = C
+9 = 5	2 = D
+1 = 6	3 = E
+5 = 7	E = F
+
+We'll use the sample code 00CE-6D69. It's for Final Fantasy II (US).
+
+Translate the code into standard hex and we get: 44AF-8085
+
+-------------------------------------------------------------------------
+                  Step 2 - Manipulations in Binary
+-------------------------------------------------------------------------
+
+The next part of the conversion involves translating our hex to
+binary, so we can manipulate the string bit-by-bit. We can use
+this handy table to convert easily.
+
+0 = 0000	8 = 1000
+1 = 0001	9 = 1001
+2 = 0010	A = 1010
+3 = 0011	B = 1011
+4 = 0100	C = 1100
+5 = 0101	D = 1101
+6 = 0110	E = 1110
+7 = 0111	F = 1111
+
+Just convert each letter and don't leave out any leading zero's,
+as they are very important.
+
+But we aren't finished yet. Now we need to rearrange our bit string so
+we can extract the correct values. To do this, we will need a position
+string so we know which bits fit into which spaces.
+
+Code:      0100 0100 1010 1111 1000 0000 1000 0101
+Position:  1234 5678 IJKL QRST OPAB CDUV WXEF GHMN
+Rearraged: 0100 0100 0000 0001 1010 0110 1111 0010
+Values:    VVVV VVVV AAAA AAAA AAAA AAAA AAAA AAAA
+
+The V's are for the value of the code, the A's are for the address.
+
+-------------------------------------------------------------------------
+                          Step 3 - Back to hex
+-------------------------------------------------------------------------
+
+Codes are much easier to work with in hex, so let's translate
+our values back to hex. Just use the same conversion table from
+step 2.
+
+Our value would be 44h, and our address is 01A6F2. This is the address
+an emulator would change, because this is the cpu address.
+
+-------------------------------------------------------------------------
+                  Step 4 - ROM Addresses and ROM hacking
+-------------------------------------------------------------------------
+
+To get the ROM address, we need to do one of two things. Which of the
+things we do depends upon whether we have a Lo or Hi ROM game. Most of
+the time, the ROM header can tell you whether you have a Lo or Hi ROM,
+but here's a general rule of thumb. Games smaller than 2 MB (16 Megabit)
+and games made prior to 1993 are usually Lo-ROM. Final Fantasy 2 is a
+Lo-ROM game. Games larger than 2 MB (16 Megabit) and games made after
+1993 are generally Hi-ROM games. Final Fantasy 3 is one example of a
+Hi-ROM game.
+
+Since our sample code is for Final Fantasy II, let's describe the Lo-ROM
+conversion method first.
+
+Lo-ROM conversion requires knowledge of binary mathematics. For more
+information on this, consult the math.txt file.
+
+Lo-ROM address = ((address & 7FFFh) | ((address & FF0000h) > 1)) + 200h
+
+In case you are not familiar with C-style notation, let me translate.
+
+(CPU address binary AND 7FFF hex) binary OR 
+((CPU address binary AND) shift right 1)) + 200 hex
+
+In our example, our CPU address is 01A6F2h.
+01A6F2h & 7FFFh = 0026F2h
+01A6F2h & FF0000h = 010000h
+010000h >> 1 = 008000h
+008000h | 0026F2h = 00A6F2h
+00A6F2h + 200h = 00A8F2h
+
+So, the Lo-ROM address for our code is A8F2h. So, if we open the Final
+Fantasy II ROM with a hex editor and change the value of A8F2 to be 44,
+we will have the permanent effect of the game genie code.
+
+I know that math is complicated. That's why I made a program to do it
+for us. It's a lot faster. Keeping track of the method just makes sure
+we don't forget how to teach the computer.
+
+Now, even though our code isn't for a Hi-ROM game, let's assume that
+it is. To get Hi-ROM addresses, we have a much simpler system.
+
+For cpu addresses between C00000h and FFFFFFh, we can simply subtract
+C00000h and add back 200h.
+
+For cpu addresses between 400000h and 7FFFFFh, we can simply subtract
+400000h and add back 200h.
+
+Since our cpu address doesn't fall within either of these ranges, we
+know it can't be a Hi-ROM game.
+
+Since we can't convert a Hi-ROM address with that code, let's try one
+from a Hi-ROM game.
+
+Code: 135C-7B85
+
+Step 1) Translate: 6E7A-39B7
+Step 2) Convert and rearrange:
+	0110 1110 0111 1010 0011 1001 1011 0111 (converted)
+	0110 1110 1110 1101 0111 1100 1010 0110 (rearranged)
+Step 3) Convert back to hex:
+	Value: 6Eh
+	Address: ED7CA6h
+Step 4) cpu address is between C00000h and FFFFFh, so we subtract
+	C00000h and add back 200h.
+	Rom Address: 2D7EA6
+
+See, it's simple, isn't it?

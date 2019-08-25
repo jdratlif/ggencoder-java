@@ -1,0 +1,72 @@
+-------------------------------------------------------------------------
+           Game Boy and Game Gear Game Genie Conversion Method
+-------------------------------------------------------------------------
+
+This document describes the process of converting Game Boy and Game Gear
+Game Genie codes to raw hex values and ROM addresses. This information
+came from unknown sources and was found at the Genie's Bottle,
+http://home.earthlink.net/~zazer
+
+Mathematical concepts are explained in the math.txt file. Consult it
+if you have questions about any of these procedures.
+
+-------------------------------------------------------------------------
+                      Step 1 - Rearranging the Code
+-------------------------------------------------------------------------
+
+The first step in translating the code is to separate its values into
+subvalues. The codes can be broken down into 4 parts.
+
+VVA-AAA-CSC
+
+The V's are the value. The A's are the address. The C's are the compare
+value, and the S is the shadow value.
+
+To demonstrate, we'll use the code 00A-17B-C49 for Super Mario Land
+on the game boy.
+
+We'll start with the V's, because they don't require any work. Just chop
+the first two characters off and we have the value.
+
+So, the value is 00h.
+
+Next we'll do the compare value. The compare value is the 7th and 9th
+characters of the code. Some game genie codes only have six characters,
+so if you have one of those codes, just ignore this part.
+
+Take the 7th and 9th characters together. That gives us C9. Now we need
+to rotate that number 2 bits to the right.
+
+C9 = 1100 1001
+   = 0111 0010 (rotated 2 bits right)
+
+Now we have to XOR that with BAh.
+
+BA = 1011 1010
+   = 1100 1000 (after the XOR)
+
+This gives us C8h, our compare value.
+
+Finally, we need to get the address. To do that, take the AAAA number,
+which is A17B. Now, rotate that number 4 bits to the right. Remember
+that 4 bits make up one hex digit, so that makes it an easy rotation.
+BA17. But, we also have to binary NOT the first digit. So, binary
+NOT that B.
+
+1011 binary NOT = 0100 = 4h
+
+So, with that small substitution, we get 4A17 for our address.
+
+Address: 4A17h
+Value:   00h
+Compare: C8h
+
+So, if the game genie reads address 4A17h and gets a value of C8,
+it changes it to 00 instead. See how simple that is?
+
+-------------------------------------------------------------------------
+                Step 2 - ROM Hacking and ROM Addresses
+-------------------------------------------------------------------------
+
+I have no information on this. If you know how to do this, or where I
+can learn more about it, please contact me.

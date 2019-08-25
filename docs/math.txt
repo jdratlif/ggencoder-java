@@ -1,0 +1,592 @@
+-------------------------------------------------------------------------
+                  Binary Mathematics and Number Systems
+-------------------------------------------------------------------------
+
+I've added this little text file to demonstrate the concepts that are
+needed to understand the conversion processes described in the other
+text files.
+
+For information on hex editing, please consult the hexedit.txt file.
+
+-------------------------------------------------------------------------
+                            Table of Contents
+-------------------------------------------------------------------------
+
+1.0 Number Systems
+	1.1 The Binary System
+	1.2 The Hexadecimal System
+	1.3 The Relationship between Binary and Hex
+	1.4 Reversing the Process
+2.0 Binary Math
+	2.1  Bit Shifting
+	2.2  Bit Rotation
+	2.3  Bit-wise Logical Operators
+	2.31 XOR
+	2.32 OR
+	2.33 AND
+	2.34 NOT
+3.0 Conclusions
+4.0 Contact Information
+5.0 Copyright Information
+
+-------------------------------------------------------------------------
+                            1.0 Number Systems
+-------------------------------------------------------------------------
+
+1.0 - Basics
+
+A number system is a system in which digits are used to build larger
+numbers. The most common system is the decimal system, which is what
+humans use. The decimal system (generally) uses arabic numbers (1,2,etc),
+and has digits from 0-9. After that, we add new numbers in extra places
+to represent numbers like 10, 11, 12, etc. I'm sure you all knew that,
+but it's good to cover ground.
+
+You will also note that the digits involved in a number system go from 0
+to 1 minus the base. So, since our base is 10 (DECimal system, DEC
+meaning 10), we have digits from 0-9. You will see this is also true for
+other number systems.
+
+It is important to understand the mathematical representation of a number
+system, if we are to use and utilize other number systems, rather than
+just having an intuitive knowledge of our mother-system. For example,
+when you learn a foreign language, they often will compare its grammar
+to your own languages grammar. But you cannot do or understand this
+if you do not have any knowledge of what a grammar is.
+
+Since we already have an intuitive knowledge of the decimal system,
+let's start with the mathematical properties of it. Then we will see how
+they transfer to any number system.
+
+We will analyze the number 26416. Why? Well, it's random. And all numbers
+have the same mathematical properties, so it doesn't really matter which
+number we choose as an example.
+
+This number has 5 places, which we will number from 0-4, 0 being the
+right-most place, and 4 being the left-most place.
+
+2  6  4  1  6	digits
+4  3  2  1  0	places
+
+Now, since this is the decimal system, all places represent a power of
+10, because dec is a prefix meaning 10. These places are powers, or
+exponents, and 10 is our base. So, to find out how much each place is
+worth, we multiply the digit by the place value, which is base raised
+to the exponent. Or, (d * b^p). To get the entire value of the number,
+we just add all the digit place values together, so, our formula becomes,
+(Dn * B^Pn) + (Dn-1 * B^Pn-1) + ... + (Dn1 * B^Pn1) + (Dn0 * B^Pn0)
+
+n is our quantifier. It represents the place of the digit. So Dn, where
+n is 0, is 6. Dn where n is 4 is 2. This means Dn0 = 6, and Dn4 = 2, and
+all the numbers in between.
+
+So, let's calculate the value of the number 26416 (yes, I know that's
+already the answer, but this will help in OTHER number systems, so bear
+with me here).
+
+2 * 10^4 + 6 * 10^3 + 4 * 10^2 + 1 * 10^1 + 6 * 10^0
+2 * 10000 + 6 * 1000 + 4 * 100 + 1 * 10 + 6 * 1
+20000 + 6000 + 400 + 10 + 6
+26416
+
+And there is our mathematical relationship between the numbers. Now, this
+mathematical property holds for any number system. The only thing that
+changes is the base. Our standard base is 10, but we will be using other
+bases very soon.
+
+-------------------------------------------------------------------------
+                           1.1 The Binary System
+-------------------------------------------------------------------------
+
+The first number system we will need to understand the process involved
+in decoding game genie codes is called binary. Bi meaning 2, the base
+for this number system is 2.
+
+Remember from 1.0 that number systems have digits from 0 to 1 minus their
+base. Since our base in the binary system is 2, we have the digits 0 and
+1. You may think it's hard to represent numbers using only two digits,
+but it's not that different from representing numbers in the decimal
+system. We just have more of them to work with, generally.
+
+Let's look at an example number: 11011101. This number may seem cryptic
+at first, but remember the mathematical properties of a number system.
+
+(Dn * B^Pn) + (Dn-1 * B^Pn-1) + ... + (Dn1 * B^Pn1) + (Dn0 * B^Pn0)
+
+This formula will fit any number system with any number of digits.
+Remembering that B, our base is now 2, not 10, let's try to see what
+this number is.
+
+1 * 2^7 + 1 * 2^6 + 0 * 2^5 + 1 * 2^4 + 
+1 * 2^3 + 1 * 2^2 + 0 * 2^1 + 1 * 2^0 =
+
+1 * 128 + 1 * 64 + 0 * 32 + 1 * 16 +
+1 * 8 + 1 * 4 + 0 * 2 + 1 * 1
+
+128 + 64 + 0 + 16 + 8 + 4 + 0 + 1 = 221
+
+So, 11011101 = 221 in decimal.
+
+Simple, isn't it?
+
+-------------------------------------------------------------------------
+                        1.2 The Hexadecimal System
+-------------------------------------------------------------------------
+
+The next number system we will use is called hexadecimal, or hex for
+short. Hex numbers are generally a staple in game genie codes, though
+they are for the most part encoded using different letters. The reason
+for this escapes me, but nontheless, let's talk about hex, as it is
+essential to the process. Hex meaning 6, and dec meaning 10, hex numbers
+are base 16.
+
+This adds an additional complication to our digit strategy. Since arabic
+numbers only go up to 9, we have 5 more numbers that cannot be
+represented. The solution is to use letters of the alphabet to
+supplement the supply of additional digits.
+
+So, 0-9 are 0-9 in hex (that part's easy enough), but the remaining 5
+numbers are A, B, C, D, E, and F, representing 10, 11, 12, 13, 14, and
+15 in decimal.
+
+The math is still the same, we just have to remember what those last 5
+digits are. So, let's try a sample: AC7F23.
+
+Remember the system.
+
+(Dn * B^Pn) + (Dn-1 * B^Pn-1) + ... + (Dn1 * B^Pn1) + (Dn0 * B^Pn0)
+
+So, our number will expand like this:
+
+A * 16^5 + C * 16^4 + 7 * 16^3 + F * 16^2 + 2 * 16^1 + 3 * 16^0
+10 * 16^5 + 12 * 16^4 + 7 * 16^4 + 15 * 16^2 + 2 * 16^1 + 3 * 16^0
+10 * 1048576 + 12 * 65536 + 7 * 4096 + 15 * 256 + 2 * 16 + 3 * 1
+10485760 + 786432 + 28672 + 3840 + 32 + 3 = 11,304,739
+
+Wow. Big number there. You won't have to do big math calculations
+like that, but it's helpful to know the system. Fortunately for you,
+all you need to do is translate between hex and binary, which the next
+section will show you is very easy.
+
+-------------------------------------------------------------------------
+            1.4 The Relationship Between Binary and Hex
+-------------------------------------------------------------------------
+
+When converting game genie codes, it is not necessary to do the large
+conversions from hex or binary to decimal by using the formula. There is
+a special relationship between hex numbers and binary numbers which
+allows us to convert between them very easily. This system uses one very
+simple table.
+
+0 = 0000    4 = 0100    8 = 1000    C = 1100
+1 = 0001    5 = 0101    9 = 1001    D = 1101
+2 = 0010    6 = 0110    A = 1010    E = 1110
+3 = 0011    7 = 0111    B = 1011    F = 1111
+
+Using this table, we can convert from hexadecimal numbers (on the left)
+to binary numbers (on the right), and vice versa.
+
+To change from a binary number to a hex number, just change every 4
+digits to their hex equivalent. If the number does not have a multiple of
+4 digits (like 4, 8, 12, 16, 20, 24, etc), then you will need to add 0's
+to the beginning of the number. It's best to convert right to left, then
+add zero's to the last number if you need them. Let's do an example.
+
+100101110010100110101100110101010101001101001011101001 = ?? hex
+
+Start by breaking up the number into groups of 4. Start from the right!
+
+0010 0101 1100 1010 0110 1011 0011 0101 0101 0100 1101 0010 1110 1001
+
+Notice that we had to add two leading zero's to our number. Unless we
+wanted to count all those digits, we wouldn't have known that before hand.
+
+Now, to convert, just use the table.
+
+2 5 C A 6 B 3 5 5 4 D 2 E 9
+or 25CA6B3554D2E9 hex.
+
+There won't be any conversions that long, but the Sega Genesis uses
+40-bit encoded strings, so you'll have strings of 10 hex digits.
+
+To convert back, we just apply the opposite. For each digit in hex, we
+add 4 binary digits to the new string. Just to make sure we converted
+correctly, let's translate the hex number we found back to binary.
+
+25CA6B3554D2E9 = ?? binary
+
+00100101110010100110101100110101010101001101001011101001
+
+So, does that number equal our original string?
+
+  100101110010100110101100110101010101001101001011101001
+
+Yes! Just prefix some leading zeros (remember, zeros' don't add
+anything to a number, in any system).
+
+This is the main type of conversion we will need to employ in our
+game genie conversion processes.
+
+Note: The Sega Genesis does not use a standard hex encoding process,
+so to convert between Sega hex and binary, see the conversion chart in
+the sega.txt file.
+
+-------------------------------------------------------------------------
+                       1.4 Reversing the Process
+-------------------------------------------------------------------------
+
+Okay. We have seen how to convert from binary numbers back to decimal,
+or in general any number system back to decimal by using the formula:
+
+(Dn * B^Pn) + (Dn-1 * B^Pn-1) + ... + (Dn1 * B^Pn1) + (Dn0 * B^Pn0)
+
+But, what if we want to convert a decimal number back to binary? Or to
+hex? Or to, well, any kind of number system?
+
+Well, the process doesn't have such a clean formula, but it's just as
+easy. The only information we need is the number base we want to convert
+to.
+
+So, imagine we have a number in decimal: 2146205
+
+How would we convert this to hexadecimal? Well, the process is somewhat
+akward, but is not difficult. First, we need to understand division a
+little better. Generally, in division, we think of a number being
+divided by another number, and we get a result. This is however flawed
+thinking though, because that result is made of up more than one piece,
+and we will need to separate the pieces in order to get this process to
+work. If we were to divide 2146205 by 16, we would get 134137.8125, but
+this result is not useful for our process. We need to think of the
+number as it actually exists, as a quotient and a remainder. This is
+known as integer divison, or modulo. The quotient is how many times
+a number can be evenly divided by the divisor. The remainder is the
+number we have left over, which is not enough to complete another
+divisor. In our example, dividing 2146205 by 16 will yield
+134137 as a quotient, and 13 as a remainder. We can test this by
+subtracting the remainder from the number before dividing, and seeing
+that this will produce even division. (2146205 - 13) / 16 = 134137
+Now, the important part of this procedure is the remainder. This
+becomes part of our number. Each remainder becomes the right-most
+digit of our new number. We can see that this is the inverse of
+the formula above.
+
+(mod(N/B^place) * B^place) + (mod(N/(B^place)) * B^place) + ...
+
+mod being the modulo function, produces the remainder of integer 
+division (number over divisor). B being the base and N being the
+number (though it's hard to put place markers in the formula). Now,
+the trick is that we have to add one of the ...'s for each time
+the N/B^place produces a quotient. In other words, if we divide
+the Number by a power of the Base, and it's still not less than 1,
+we have to keep repeating the process.
+
+This description sounds complicated, even to me, so let's just try to
+do the conversion, as maybe the illustration will be simpler.
+
+2146205    (134137) + 13
+-------  = 
+ 16^1
+
+So, our first digit is a D (13 = D hex)
+
+2146205
+-------  =  (8383) + 9
+ 16^2
+
+The next digit is a 9.
+
+2146205
+-------  = (523) + F
+ 16^3
+
+2146205
+-------  = (32) + B
+ 16^4
+
+2146205
+-------  = (2) + 0
+ 16^5
+
+2146205
+-------  = (0) + 2
+ 16^6
+
+So, our number is 20BF9D hex.
+
+It may be easier for you to use a table, with one side for the
+quotients, and one side for the remainders (running tally).
+
+ 2146205
+-----------|------------
+ 134137    |         D
+   8383    |        9D
+    523    |       F9D
+     32    |      BF9D
+      2    |     0BF9D
+      0    |    20BF9D
+
+We divide by base (16), and get 134137. Remainder is 13 (D). Divide
+by 16 again. Quotient is 8383, remainder is 9. Running tally is 9D.
+Divide by 16 again. Quotient is 523. Remainder is F. Running tally
+is F9D. Divide by 16 again. Quotient is 32, remainder is B. Running
+tally is BF9D. Divide by 16 again. Quotient is 2. Remainder is 0.
+Running tally is 0BF9D. Divide by 16 again. Quotient is 0, remainder
+is 2. Final tally is 20BF9D.
+
+A little more work for converting back, but not a difficult process.
+
+The same procedure works for converting to binary (or to any number
+system). Let's convert our number to binary using the table.
+
+ 2146205
+-----------|------------------------
+ 1073102   |                      1
+  536551   |                     01
+  268275   |                    101
+  134137   |                   1101
+   67068   |                  11101
+   33534   |                 011101
+   16767   |                0011101
+    8383   |               10011101
+    4191   |              110011101
+    2095   |             1110011101
+    1047   |            11110011101
+     523   |           111110011101
+     261   |          1111110011101
+     130   |         11111110011101
+      65   |        011111110011101
+      32   |       1011111110011101
+      16   |      01011111110011101
+       8   |     001011111110011101 
+       4   |    0001011111110011101
+       2   |   00001011111110011101
+       1   |  000001011111110011101
+       0   | 1000001011111110011101
+
+Of course, translation to binary takes a bit longer, but you can
+see that the process is the same. Just keep dividing by the base
+and saving the remainder. Just remember not to stop until your
+quotient is 0. That's when you know you're done.
+
+-------------------------------------------------------------------------
+                            2.0 Binary Math
+-------------------------------------------------------------------------
+
+As if number systems weren't enough, some binary math may be needed to
+understand the concepts presented in the conversion texts. These
+concepts are not quite as simple as the number systems, but are by no
+means difficult.
+
+-------------------------------------------------------------------------
+                            2.1 Bit Shifting
+-------------------------------------------------------------------------
+
+Bit shifting is the process of moving (or shifting) bits of a number in
+a direction, either right or left. In the process of shifting, all the
+bits (digits of a binary number) are moved in that direction x number of
+places. 0's are added on one end of the number to fill in the spots
+vacated by the shifted bits. Bits at the end of the number in the
+direction of the shift are lost. Well, this is all very abstract, so
+let's try a practical example.
+
+10110010 shift right (->) 3 = 00011010
+10110010 shift left  (<-) 3 = 10010000
+
+When we shifted right, we lost the right-most 3 bits. 0's were added to
+the left to fill in the vacant spots. When we shifted left, we lost the
+left-most 3 bits. 0's were then added to the right to fill in the vacant
+spots. This is how bit shifting works, we simply shift the digits in
+a direction x places.
+
+To use a standard terminology:
+>> x   = shift right x places
+shr(x) = shift right x places
+<< x   = shift left x places
+shl(x) = shift left x places
+
+I have seen some documents use shl to mean >>, and I cannot understand
+this. The l would seem to imply left, but I generally use the C-style
+operators because that's what I use for programming.
+
+(10110010 >> 3) = 00011010
+(10110010 << 3) = 10010000
+
+See how easy bit shifting is?
+
+Well, just remember that the number represents how many bits to shift,
+and a bit is a binary digit. So, if you shift a hex number 4 places, you
+are only moving one digit, not 4.
+
+(AECF >> 4) = 0AEC
+(AECF << 4) = ECF0
+
+If we shift a hex number x places, and x is not a multiple of 4, then
+it's easist to convert to binary, do the shift, then convert back.
+
+It's rare to talk about shifting outside binary or hex numbers, so
+I won't cover decimal number shifting here.
+
+-------------------------------------------------------------------------
+                           2.2 Bit Rotation
+-------------------------------------------------------------------------
+
+Well, as if it weren't enough to shift bits, now we want to rotate them
+too. This is easy too, and not that different from bit shifting. However,
+in bit rotation, we don't lose our bits, we simply rotate them around to
+the other side instead of adding 0's.
+
+Let's try an example to demonstrate the concept. For common terminology,
+we will use these keywords for bit rotation:
+
+rol = rotate left
+ror = rotate right
+
+01011001 rol 3 = 11001010
+
+Now, instead of adding 0's to the right where our bits were moved away
+from, we save the bits that were "lost" and put them back on the other
+side instead.
+010 11001 rol 3 = 11001 010 (see?)
+
+Same way for ror, just reverse it.
+
+01011001 ror 3 = 00101011
+01011 001 ror 3 = 001 01001
+
+Well, I know that's a very easy concept, so you should have no trouble
+with it.
+
+Remember that as in hex numbers for shifting, we need to rotate in
+multiples of 4, so we can move digits instead of partial digits. Just
+remember that a 4-bit shift is one digit, and you should be fine.
+
+-------------------------------------------------------------------------
+                     2.3 Bit-wise Logical Operators
+-------------------------------------------------------------------------
+
+The last concept we need to cover is the bit-wise logical operators.
+These operators use logic to control how bits are changed in a binary
+number. The logic operates using two input values to produce a result.
+Each input value is a binary digit (bit). The exception is the NOT
+operator, which takes only a single value.
+
+Now that we know how it works in general, let's take a look at how it
+works with 2 binary numbers. Unless we are using NOT, we have two
+inputs, our number, and our logical operation number. Given our number
+1001100111001001, we want to perform a bit-wise AND with 1010110001111100
+
+So, we take our two numbers, and lay them one atop another.
+
+     1001100111001001
+ AND 1010110001111100
+----------------------
+
+Now, we simply apply the logical operator to each of the two value pairs.
+The first two values are 1 and 1, the 0 and 0, 0 and 1, etc from left to
+right.
+
+In the case of not, we only have our number. We will see complete
+examples under the subsections.
+
+-------------------------------------------------------------------------
+                        2.31 XOR - Exclusive OR
+-------------------------------------------------------------------------
+
+The symbol for XOR is the caret ^ character.
+
+The result is 1 if either bit is 1, but not both, otherwise the result is
+0. So, the exclusivity of a 1 bit makes the result 1.
+
+input1 input2 | output
+----------------------
+  0       0   |   0
+  0       1   |   1
+  1       0   |   1
+  1       1   |   0
+
+     1001100111001001
+ XOR 1010110001111100
+----------------------
+     0011010110110101
+
+-------------------------------------------------------------------------
+                                 2.32 OR
+-------------------------------------------------------------------------
+
+The symbol for OR is the single pipe | character.
+
+The result is 1 if either bit is 1, otherwise the result is 0.
+
+input1 input2 | output
+----------------------
+  0       0   |   0
+  0       1   |   1
+  1       0   |   1
+  1       1   |   1
+
+     1001100111001001
+  OR 1010110001111100
+----------------------
+     1011110111111101
+
+-------------------------------------------------------------------------
+                                 2.33 AND
+-------------------------------------------------------------------------
+
+The symbol for AND is the single ampersand & character.
+
+The result is 1 if both input bits are 1, otherwise the result is 0.
+
+input1 input2 | output
+----------------------
+  0       0   |   0
+  0       1   |   0
+  1       0   |   0
+  1       1   |   1
+
+     1001100111001001
+ AND 1010110001111100
+----------------------
+     1000100001001000
+
+-------------------------------------------------------------------------
+                                 2.34 NOT
+-------------------------------------------------------------------------
+
+The symbol for NOT is the tilde ~ character.
+
+The result is the opposite of the input. 1 produces 0, and 0 produces 1.
+
+input | output
+--------------
+  0   |   1
+  1   |   0
+
+ NOT 1001100111001001
+----------------------
+     0110011000110110
+
+-------------------------------------------------------------------------
+                            3.0 Conclusions
+-------------------------------------------------------------------------
+
+I hope I illustrated all the concepts in a manner that was straight-
+forward and easy to understand. If you have questions or comments about
+anything in this document, please feel free to contact me.
+
+-------------------------------------------------------------------------
+                         4.0 Contact Information
+-------------------------------------------------------------------------
+
+I can be contacted via email at jdratlif@cs.indiana.edu or by using my
+web based feedback form at 
+http://www.technoplaza.net/index.cgi?p=feedback
+
+-------------------------------------------------------------------------
+5.0 Copyright Information
+-------------------------------------------------------------------------
+
+This document is copyright (C) 2001 John David Ratliff. Distribution
+with this notice is permissible if alterations are not made. Altering
+this document is not permissible without explicit written permission of
+the author.

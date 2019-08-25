@@ -1,0 +1,88 @@
+-------------------------------------------------------------------------
+                           Hex Editing Basics
+-------------------------------------------------------------------------
+
+This document is provided as an introduction to the process of hex
+editing. It is by no means comprehensive, and only covers the most
+basic topics of hex editing for use in hacking ROMs to create permanent
+game genie code effects.
+
+The information on what to hack is in the system files, the snes.txt
+and nes.txt. I have no information on ROM hacking as it pertains to
+Sega Genesis, Game Boy, or Sega Game Gear.
+
+-------------------------------------------------------------------------
+                            What is a Hex Editor?
+-------------------------------------------------------------------------
+
+The easiest question, what is a hex editor, has a very simple answer. A
+hex editor is a program which changes a program (or more generally, any
+kind of file) by directly modifying its contents. This is the editor
+part. The hex part refers to the hexadecimal number system used to keep
+track of positions and values in the file.
+
+A hex editor has no idea what kind of information that it is editing. So,
+the system it uses is just to display all the information in the file,
+and allow you to change files in the file by hand. This cannot be done
+with simple text editors and other kinds of editors. Every byte of the
+file is a value, and those values represent something. If we know what
+these values represent, we can make permanent changes to programs or
+other types of files to change their meaning. For our purposes, hex
+editing will allow us to create permanent game genie effects. The
+program is used in finding what parts of the file to change, and what
+to change them to. This is done by decoding a game genie code and
+using that information to help you modify the game file safely.
+
+Note that hex editing can cause permanent irreversable damage to a file.
+Most editors have the option of keeping a backup file, and it's highly
+recommended to do so.
+
+-------------------------------------------------------------------------
+                        What hex editor should I use?
+-------------------------------------------------------------------------
+
+Well, there are two hex editors that I have used in the past. Hex
+Workshop, which is a very full and complete hex editor. It can do almost
+any function related to hex editing, even if we only need to make simple
+changes. However, the reason I used Hex Workshop was because it works
+in Windows, specifically Windows 2000, which I use. The other editor I
+used to use does not. The other hex editor is hexposure. It is a very
+simple editor with a DOS interface and very simple graphics. It is not
+complete, but will serve our purposes. I'm presuming you can read, so
+I don't plan to describe how to use the two products. The directions on
+both are simple enough.
+
+-------------------------------------------------------------------------
+          What kinds of Hex Editor Commands Should I know?
+-------------------------------------------------------------------------
+
+The basic commands we will be using are Goto (or Search possibly), and
+Goto Again (or Search Again, or maybe even Find Again). The only other
+thing we need to do is change the data, and we do that by simple typing.
+
+The main part is the goto, finding the place you need to go. First, start
+the ggdecode() program and decrypt the code. Write down the ROM address,
+(Lo-ROM and Hi-ROM for SNES), the value, and the compare or check value
+for NES codes. Now, open your ROM in the hex editor. Use the Goto
+command to go to offset ROM address. If you have a compare value, make
+sure the value at that offset matches the compare value. Then change
+the value of the offset to the value from the code decryption. Save
+the file and you're done. Now you have permanent game genie code
+effects.
+
+Read the snes.txt and nes.txt files for more information. However, hex
+editing really isn't for beginners, so if this information doesn't make
+sense, you probably shouldn't attempt it.
+
+-------------------------------------------------------------------------
+                             Conclusions
+-------------------------------------------------------------------------
+
+Hex editing is not hard, but is definitely not for beginners. If you want
+to play around with it, that's fine. But just make sure you don't damage
+any files inadvertantly. The best way to do that is just not to save
+any file you aren't sure is edited correctly.
+
+This file is not meant to be a text on how to use hex editors. Search the
+web if you want something like this. This is just a very basic overview
+of hex editing so people will understand what it is.

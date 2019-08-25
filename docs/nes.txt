@@ -1,0 +1,199 @@
+-------------------------------------------------------------------------
+                   NES Game Genie Conversion Method
+-------------------------------------------------------------------------
+
+This document describes the process of converting NES Game Genie codes
+to raw hex values and ROM addresses. This information came from
+Benzene of Digital Emutations. I've tested the results by using
+NESticle 0.xx for DOS.
+
+Mathematical concepts are explained in the math.txt file. Please consult
+that file if you have any questions about this process.
+
+For information on hex editing, please consult the hexedit.txt file.
+
+-------------------------------------------------------------------------
+                Step 1 - Convert GG hex to Standard hex
+-------------------------------------------------------------------------
+
+All the game genie letters translate to standard hex codes, so we just
+need to know how that conversion works. Here's a short table.
+
+A = 0	E = 8
+P = 1	O = 9
+Z = 2	X = A
+L = 3	U = B
+G = 4	K = C
+I = 5	S = D
+T = 6	V = E
+Y = 7	N = F
+
+-------------------------------------------------------------------------
+                  Step 2 - Manipulations in Binary
+-------------------------------------------------------------------------
+
+The next part of the conversion involves translating our hex to
+binary, so we can manipulate the string bit-by-bit. We can use
+this handy table to convert easily.
+
+0 = 0000	8 = 1000
+1 = 0001	9 = 1001
+2 = 0010	A = 1010
+3 = 0011	B = 1011
+4 = 0100	C = 1100
+5 = 0101	D = 1101
+6 = 0110	E = 1110
+7 = 0111	F = 1111
+
+Just convert each letter and don't leave out any leading zero's,
+as they are very important.
+
+-------------------------------------------------------------------------
+             Step 2a - Decoding 8 character Game Genie Codes
+-------------------------------------------------------------------------
+
+Skip this step if you have a 6 character code.
+
+We aren't done yet, because now that we have the binary version
+of the code, we have to rearrange the bits so it's no longer
+encrypted.
+
+To rearrange the values, we need to have a position system. Each
+bit in the bit string represents a different position. When we
+arrange the positions in order, we will have the converted code.
+
+Code:     00000110111000000110010011010011
+Position: 1678H234-IJKLABCDMNOeEFGafgh5bcd
+
+If we rearrange the code in order of position, starting with
+the numbers from 1-8, then the dash, next the letters A-O, and
+finally the letters a-h, we will have broken the code. You may
+want to break the code up to see the positions better.
+
+Code:     0000 0110 1110 0000 0110 1001 1101 0011
+Position: 1678 H234 -IJK LABC DMNO eEFG afgh 5bcd
+
+	  0110 0000  000 0001 
+
+When we go to rearrange this code, we will end up with this
+set of bits:
+
+Original:   0000 0110 1110 0000 0110 1001 1101 0011
+Rearranged: 0110 0000 1000 0100 0110 0110 1011 0101
+Represents: VVVV VVVV -AAA AAAA AAAA AAAA CCCC CCCC
+
+VVVV VVVV: The value of the code. That is, what we change the
+	   addresses value to.
+
+AAA AAAA AAAA AAAA: The address of the code. What we change.
+
+CCCC CCCC: The compare value. We only change the address to
+	   the value if the current value of the address
+	   matches the compare value.
+
+-------------------------------------------------------------------------
+            Step 2b - Decoding 6 character Game Genie Codes
+-------------------------------------------------------------------------
+
+Skip this step if you have an 8 character code.
+
+To find the correct values, we need to rearrange the bit positions in
+the bit string. To rearrange in the correct order, we will need to know
+the correct positions to rearrange the bits into.
+
+Code:     110110100101100100011001
+Position: 1678H234-IJKLABCDMNO5EFG
+
+If we rearrange the code in order of position, starting with the numbers
+1-8, then the dash, then the letters A-M, we will have the correct
+values. It helps to break up the code to see it better.
+
+Original:   1101 1010 0101 1001 0001 1001
+Rearranged: 1010 1101 0001 0001 1101 1001
+Represents: VVVV VVVV -AAA AAAA AAAA AAAA
+
+VVVv VVVV: The value of the code, i.e. what we change the value of the
+	   address to.
+
+AAA AAAA AAAA AAAA: The address of the code. What we change.
+
+-------------------------------------------------------------------------
+                          Step 3 - Back to hex
+-------------------------------------------------------------------------
+
+Codes are much easier to work with in hex, so let's translate
+our values back to hex. Just use the same conversion table from
+step 2.
+
+-------------------------------------------------------------------------
+                  Step 4 - ROM Addresses and ROM hacking
+-------------------------------------------------------------------------
+
+To get the ROM address, we need to add 8000h to our code address.
+Finally, we need to adjust for the iNES ROM header, which is 16
+bytes. So we need to add 0010h to our address.
+
+For 8 character game genie codes, there is an extra step. The
+compare value. This compare value is used because of the way the
+NES works. The NES can only handle 32K at a time. This means that
+to use more program data (because 32K is very small), we need to
+have different "ROM pages". A ROM page is 32K of data, and there
+are usually several of them in an iNES ROM (all .nes files are
+iNES roms).
+
+So, to find the correct value, we need to use the compare value.
+So, in the hex editor, check the value of the first ROM address
+against the compare value. If they match, that's the value to
+change. If not, then add 8000h to the value and check that value.
+Keep doing this until you find the matching value. Note that
+there may be more than one matching value. In that case, you
+will need to change them all (that's what the real game genie
+does - well, that's glib, but good enough).
+
+-------------------------------------------------------------------------
+               Example of an 8 character code: ATVATGSL
+-------------------------------------------------------------------------
+
+Step 1)  Translate the code and we get: ATVATGSL = 06E064D3
+Step 2)  So, translate 06E069D3 to binary and we get
+	 0000 0110 1110 0000 0110 0100 1101 0011
+Step 2a) Now rearrange the bits to get the correct bit string
+	 0110 0000 1000 0100 0110 0110 1011 0101
+	 V: 0110 0000
+	 A:  000 0100 0110 0110
+	 C: 1011 0101
+Step 3)  Convert back to hex
+	 V: 60h
+	 A: 0466
+	 C: B5
+Step 4)  Add the offset values to get the ROM address:
+	 R: 8476h
+	 V: 60h
+	 C: B5
+
+	 If (R == C) then { R = V, repeat } else { r += 8000h, repeat. }
+
+	 Anyway, just keep checking values and adding 8000h till all the
+	 C's become V's. Simple, no?
+
+-------------------------------------------------------------------------
+               Example of an 6 character code: SXIOPO
+-------------------------------------------------------------------------
+
+Step 1)  Translate the code and we get: SXIOPO = DA5919
+Step 2)  Convert that the binary and we get
+	 1101 1010 0101 1001 0001 1001
+Step 2b) Now rearrange the bits to get the correct bit string:
+	 1010 1101 0001 0001 1101 1001
+	 V: 1010 1101
+	 A:  001 0001 1101 1001
+Step 3)  Convert back to hex:
+	 V: ADh
+	 A: 11D9h
+Step 4)  Add the offset values to get the ROM address:
+	 R: 91E9h
+
+	 Now, just open your hex editor, and change the value of 91E9
+	 to be ADh.
+
+	 6 digit codes are quite simple, no?

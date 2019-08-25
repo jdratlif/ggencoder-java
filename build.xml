@@ -1,0 +1,47 @@
+<project name="Java GGEncoder" basedir="." default="run">
+	<property name="src" value="source"/>
+	<property name="obj" value="classes"/>
+	<property name="doc" value="javadocs"/>
+	
+	<property name="ggencoder-lib" value="ggencoder.jar"/>
+	
+	<!-- initialization target -->
+	<target name="init">
+		<tstamp/>
+	</target>
+	
+	<!-- compilation target -->
+	<target name="compile" depends="init">
+		<mkdir dir="${obj}"/>
+		<javac srcdir="${src}" destdir="${obj}"/>
+	</target>
+	
+	<!-- build target -->
+	<target name="build" depends="compile">
+		<jar jarfile="${ggencoder-lib}">
+			<fileset dir="${obj}"/>
+			
+			<manifest>
+				<attribute name="Main-Class" value="ggencoder.GGEncoder"/>
+			</manifest>
+		</jar>
+	</target>
+	
+	<!-- execution target -->
+	<target name="run" depends="build">
+		<java fork="true" jar="${ggencoder-lib}"/>
+	</target>
+	
+	<!-- doccumentation target -->
+	<target name="javadoc" depends="init">
+		<javadoc sourcepath="${src}" destdir="${doc}" version="true"
+		         packagenames="*" author="true" use="true"/>
+	</target>
+	
+	<!-- cleanup target -->
+	<target name="clean">
+		<delete file="${ggencoder-lib}"/>
+		<delete dir="${obj}"/>
+		<delete dir="${doc}"/>
+	</target>
+</project>

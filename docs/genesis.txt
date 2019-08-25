@@ -1,0 +1,86 @@
+-------------------------------------------------------------------------
+                Sega Genesis Game Genie Conversion Method
+-------------------------------------------------------------------------
+
+This document describes the process of converting Sega Genesis Game Genie
+codes to raw hex values and ROM addresses. This information came from
+postings by Merlyn LeRoy to video game newsgroups.
+
+The mathematical concepts involved are explained in the math.txt file.
+Please consult that file if you have any questions on any of the
+procedures used here.
+
+-------------------------------------------------------------------------
+                Step 1 - Convert GG hex to Standard Binary
+-------------------------------------------------------------------------
+
+The first step in decoding Genesis codes is to translate the code into
+binary. This system is not as simple as the other game genies, but its
+workings is more complex.
+
+To translate the characters into binary, we can use this simple table.
+Just string all the digits together and don't leave out any leading
+zero's. They are needed as placeholders.
+
+A = 00000   J = 01000   T = 10000   2 = 11000
+B = 00001   K = 01001   V = 10001   3 = 11001
+C = 00010   L = 01010   W = 10010   4 = 11010
+D = 00011   M = 01011   X = 10011   5 = 11011
+E = 00100   N = 01100   Y = 10100   6 = 11100
+F = 00101   P = 01101   Z = 10101   7 = 11101
+G = 00110   R = 01110   0 = 10110   8 = 11110
+H = 00111   S = 01111   1 = 10111   9 = 11111
+
+We will use the sample code SCRA-BJX0. That last character is a 0,
+not an O, but it's okay, because there is no O in the Genesis Game
+Genie Alphabet, so it's hard to get confused.
+
+Translating it into binary, we get this 40-bit string:
+01111 00010 01110 00000 00001 01000 10011 10110
+
+-------------------------------------------------------------------------
+                  Step 2 - Manipulations in Binary
+-------------------------------------------------------------------------
+
+The next step is to rearrange our binary string into the correct
+positions. To do this, we need to know which positions the bits should
+be arranged in. This handy string will help up translate:
+
+ijklm nopIJ KLMNO PABCD EFGHd efgha bcQRS TUVWX
+
+Rearrange the string to be A-X, then a-p. These two values make up the
+address (cpu address) and the value. The address is the A-X, and the
+value is the a-p.
+
+So, by rearranging our string, we come out with this new string:
+
+0000 0000 1001 1100 0111 0110 0101 0100 0111 1000
+AAAA AAAA AAAA AAAA AAAA AAAA VVVV VVVV VVVV VVVV
+
+We have separated it into fours so we can convert it back to standard
+hex easier. The V's are for the value, and the A's are for the
+address.
+
+We can use this handy table to convert easily.
+
+0 = 0000	8 = 1000
+1 = 0001	9 = 1001
+2 = 0010	A = 1010
+3 = 0011	B = 1011
+4 = 0100	C = 1100
+5 = 0101	D = 1101
+6 = 0110	E = 1110
+7 = 0111	F = 1111
+
+Address = 009C76h
+Value   = 5478h
+
+-------------------------------------------------------------------------
+                  Step 3 - ROM Addresses and ROM hacking
+-------------------------------------------------------------------------
+
+I don't have any information on ROM hacking or ROM addresses for Genesis
+ROMs, so I don't have any information to put here.
+
+If you know how the cpu address corresponds to the ROM address, or know
+where I can find this information, please let me know.
