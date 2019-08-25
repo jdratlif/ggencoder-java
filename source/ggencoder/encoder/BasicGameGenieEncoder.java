@@ -30,7 +30,7 @@ import ggencoder.datastructures.GBGGRawCode;
  * An implementation of the GameGenieEncoder interface.
  *
  * @author John David Ratliff
- * @version 1.2, 07/15/04
+ * @version 1.3, 11/16/04
  */
 class BasicGameGenieEncoder extends AbstractGameGenieEncoder {
     private static final GameGenieEncoder INSTANCE = new BasicGameGenieEncoder();
@@ -74,6 +74,11 @@ class BasicGameGenieEncoder extends AbstractGameGenieEncoder {
 
         // position -IJK
         temp = (address & 0x70) >> 4;
+        
+        if (code.hasCompareValue()) {
+            temp |= 0x8;
+        }
+        
         genie <<= 4;
         genie |= temp;
 

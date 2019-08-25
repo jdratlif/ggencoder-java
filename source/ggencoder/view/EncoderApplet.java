@@ -33,6 +33,8 @@ import java.awt.event.ItemListener;
 import java.awt.event.TextEvent;
 import java.awt.event.TextListener;
 
+import ggencoder.GGEncoder;
+
 import ggencoder.datastructures.AbstractGameGenieCode;
 import ggencoder.datastructures.BasicGBGGRawCode;
 import ggencoder.datastructures.BasicGenesisRawCode;
@@ -56,7 +58,7 @@ import ggencoder.exceptions.InvalidGameGenieCodeException;
  * Applet providing a GUI interface for encoding/decoding game genie codes.
  *
  * @author John David Ratliff
- * @version 1.2, 07/17/04
+ * @version 1.3, 11/16/04
  */
 public class EncoderApplet extends java.applet.Applet {
     private Label addressLabel;
@@ -160,19 +162,19 @@ public class EncoderApplet extends java.applet.Applet {
 
         titlePanel.setLayout(new GridBagLayout());
 
-        titleLabel.setText("Java GGEncoder 1.0");
+        titleLabel.setText(GGEncoder.APP_NAME + ' ' + GGEncoder.APP_VERSION);
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         titlePanel.add(titleLabel, gridBagConstraints);
 
-        copyrightLabel.setText("Copyright (C) 2004 emuWorks");
+        copyrightLabel.setText(GGEncoder.APP_COPYRIGHT);
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         titlePanel.add(copyrightLabel, gridBagConstraints);
 
-        urlLabel.setText("http://games.technoplaza.net");
+        urlLabel.setText(GGEncoder.APP_URL);
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;

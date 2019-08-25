@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
-| Java GGEncoder 1.0
+| Java GGEncoder 1.1
 | Copyright (C) 2004 emuWorks
 | http://games.technoplaza.net
 | Author: John David Ratliff
@@ -25,11 +25,11 @@
   mode. ggconvc has a graphical mode, but doesn't do all the translations (it
   lacks a gameboy/gamegear mode). uggconv could be compiled for any system,
   but you still have to do that yourself (except on Windows). ggconvc will only
-  work in Windows (it's written in Visual C++). There are a few other programs
-  that do some other interesting things that Java GGEncoder doesn't do. There is
-  a game gear program which will patch ROMs for you. But it's limited to game
-  gear ROMs (and possibly SMS roms). In a future version, I may add ROM patching
-  support, as that seems like a natural extention.
+  work in Windows (it's written with Microsoft GUI Libraries). There are a few
+  other programs that do some other interesting things that Java GGEncoder
+  doesn't do. There is a game gear program which will patch ROMs for you. But
+  it's limited to game gear ROMs (and possibly SMS roms). In a future version,
+  I may add ROM patching support, as that seems like a natural extention.
   
 -------------------------------------------------------------------------------
 | Why is this program better?
@@ -87,6 +87,16 @@
   
   For some more help and examples, type
   java -jar ggencoder.jar --help
+
+-------------------------------------------------------------------------------
+| Revision History
+-------------------------------------------------------------------------------
+
+  Version 1.1 - November 16, 2004
+	- fixed a bug in NES gg encoder where codes would be invalid on a real gg
+  Version 1.0 - July 17, 2004
+	- intial release
+	- support for NES, SNES, Game Gear, Game Boy, and Genesis Codes
   
 -------------------------------------------------------------------------------
 | Credits and Thanks
@@ -102,6 +112,8 @@
   Cheatmaster - Author of ggconvc - The whole idea came from her program
   Tony Hedstrom - His Codes gave me the idea to make some of my own, which lead
   		  to needing an encoding program, which lead to this
+  Johnny Hang Yang - His questions made me take a closer look at the ignored part
+                     of NES addresses and lead me to fix a bug in the program.
 
 -------------------------------------------------------------------------------
 | How it Works

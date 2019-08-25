@@ -56,7 +56,7 @@ import ggencoder.view.EncoderApplet;
  * The runclass for the game genie encoder program in text or GUI mode.
  *
  * @author John David Ratliff
- * @version 1.3, 07/17/04
+ * @version 1.4, 11/16/04
  */
 public class GGEncoder {
     private static final int SYSTEM_NES = 1;
@@ -74,7 +74,17 @@ public class GGEncoder {
     /**
      * The application's version.
      */
-    public static final String APP_VERSION = "1.0";
+    public static final String APP_VERSION = "1.1";
+    
+    /**
+     * The application's copyright.
+     */
+    public static final String APP_COPYRIGHT = "Copyright (C) 2004 emuWorks";
+    
+    /**
+     * The application's website.
+     */
+    public static final String APP_URL = "http://games.technoplaza.net/";
 
     /**
      * Pattern for recognizing NES Raw Codes.
